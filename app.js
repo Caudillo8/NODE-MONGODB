@@ -13,7 +13,7 @@ server.get("/", (request, response) => {
 });
 
 const connectDb = async () => {
-  await mongoose.connect("mongodb://localhost:27017/curso-node");
+  await mongoose.connect("mongodb://localhost:8080/curso-node");
   console.log("✅ Conectado a MongoDB con éxito");
 };
 
