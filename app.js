@@ -19,13 +19,13 @@ const connectDb = async () => {
 
 // Creación de esquema de Mongodb
 // los datos que voy agregar estarán basados en estas validaciones
-const productSchema = new mongoose.Schema(
+const player = new mongoose.Schema(
   {
-    nombre: { type: String, required: true },
-    precio: { type: Number, default: 0 },
-    stock: { type: Number, required: true },
-    descripcion: { type: String },
-    categoria: { type: String, required: true },
+    name: { type: String, required: true },
+    lastName: { type: String, required: true },
+    passValue: { type: Number, default: 0 },
+    dorsal: { type: Number, required: true },
+    club: { type: String, required: true },
   },
   {
     versionKey: false,
@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema(
 
 // modelo un un objeto que nos da acceso a los métodos de mongodb
 // findByIdAndUpdate()
-const Product = mongoose.model("Product", productSchema);
+const Product = mongoose.model("Product", player);
 const User = mongoose.model("User", userSchema);
 
 const authMiddleware = (request, response, next) => {
@@ -119,20 +119,20 @@ server.get("/products", authMiddleware, async (request, response) => {
 server.post("/products", authMiddleware, async (request, response) => {
   const body = request.body;
 
-  const { nombre, precio, stock, descripcion, categoria } = body;
+  const { name, lastName, passValue, dorsal, club } = body;
 
-  if (!nombre || !precio || !stock || !descripcion || !categoria) {
+  if (!name || !lastName || !passValue || !dorsal || !club) {
     return response
       .status(400)
       .json({ status: "Data invalida, intentalo nuevamente" });
   }
 
   const newProduct = new Product({
-    nombre,
-    precio,
-    stock,
-    descripcion,
-    categoria,
+    name,
+    lastName,
+    passValue,
+    dorsal,
+    club,
   });
 
   await newProduct.save();
